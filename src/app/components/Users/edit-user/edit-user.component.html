@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  @if (loading) {
+  <div class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">جاري التحميل...</span>
+    </div>
+  </div>
+  } @if (errorMessage) {
+  <div class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+  } @if (successMessage) {
+  <div class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+  } @if (user) {
+  <h1 class="text-center mb-4 top-title">تعديل الإعلان</h1>
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="details d-flex flex-wrap">
+        <div class="col-12">
+          <form (ngSubmit)="submitForm()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">الاسم الاول</label>
+                <input type="text" class="form-control" id="firstName" [(ngModel)]="formData.firstName" name="firstName"
+                  required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">الاسم الاخير</label>
+                <input type="text" class="form-control" id="lastName" [(ngModel)]="formData.lastName" name="lastName"
+                  required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-control" id="email" [(ngModel)]="formData.email" name="email" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="phoneNumber" class="form-label">رقم الهاتف</label>
+                <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="formData.phoneNumber"
+                  name="phoneNumber" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="activity" class="form-label">النشاط</label>
+                <input type="text" class="form-control" id="activity" [(ngModel)]="formData.activity" name="activity"
+                  required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="role" class="form-label">الدور</label>
+                <select class="form-control" id="role" [(ngModel)]="formData.role" #role="ngModel" name="role" required>
+                  <option value="" disabled>اختر</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Member">Member</option>
+                </select>
+              </div>
+              <div class="col-md-12 mb-3">
+                <label for="image" class="form-label">صورة المستخدم</label>
+                <input type="file" class="form-control" id="image" (change)="onFileChange($event)" accept="image/*" />
+                @if (formData.imageUrl) {
+                <img style="max-width: 200px; height: 100px; margin-top: 15px;" [src]="formData.imageUrl"
+                  alt="صورة المستخدم" />
+                }
+              </div>
+              <div class="col-md-12 mt-5 buttons d-flex justify-content-center align-content-center align-items-center">
+                <button type="submit" class="btn btn-edit" [disabled]="loading">
+                  حفظ التعديلات
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

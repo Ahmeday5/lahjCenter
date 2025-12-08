@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  @if (loading) {
+  <div class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">جاري التحميل...</span>
+    </div>
+  </div>
+  }@else if (errorMessage) {
+  <div class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+  }
+  @else if (advertisement) {
+  <div class="row">
+    <!-- قسم الصور الجانبية -->
+    <div class="col-md-3 mb-4">
+      <div class="all-imgs">
+        <div class="row">
+          @for (image of advertisement.advertisementImages; track image.id) {
+          <div class="col-md-12 d-flex justify-content-center align-content-center mb-3 imgs"
+            [ngClass]="{ 'active': selectedImage?.id === image.id }" (click)="selectImage(image)">
+            <img [src]="image.imageName" alt="Advertisement Image">
+          </div>
+          }
+          @empty {
+          <div class="col-md-12 d-flex justify-content-center align-content-center mb-3 imgs">
+            <img src="/assets/img/details adev/ts.png" alt="No Image" class="img-fluid">
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- قسم التفاصيل والصورة الرئيسية -->
+    <div class="col-md-9 mb-4">
+      <div class="details d-flex flex-wrap">
+        <div class="col-12">
+          <div class="row">
+            <h1 class="title text-center">التفاصيل</h1>
+            <div class="col-md-6 content">
+              <p><strong>الفئة : </strong> {{ advertisement.groupName || 'غير متوفر' }}</p>
+              <p><strong>الخدمة : </strong> {{ advertisement.serviceName || 'غير متوفر' }}</p>
+              <p><strong>السعر : </strong> {{ advertisement.price }} {{ advertisement.currencyName || 'غير متوفر' }}</p>
+              <p><strong>المحافظة : </strong> {{ advertisement.governorateName || 'غير متوفر' }}</p>
+              <p><strong>المنطقة : </strong> {{ advertisement.area || 'غير متوفر' }}</p>
+              <p><strong>الوصف : </strong> {{ advertisement.description || 'غير متوفر' }}</p>
+              <p><strong>الحالة : </strong> {{ advertisement.status || 'غير متوفر' }}</p>
+              <p><strong>تاريخ الإعلان : </strong> {{ formatDate(advertisement.date) }}</p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-content-center align-items-center img">
+              @if (selectedImage) {
+              <img [src]="selectedImage.imageName" alt="Advertisement Image" class="img-fluid">
+              } @else {
+              <img src="/assets/img/details adev/ts.png" alt="No Image" class="img-fluid">
+              }
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="col-md-12 mt-5 buttons d-flex justify-content-center align-content-center align-items-center">
+            <button class="btn btn-edit" (click)="navigateToEdit()">تحديث الإعلان</button>
+            @if (selectedImage) {
+            <button class="btn btn-delete" (click)="deleteImage(selectedImage.id)">حذف الصورة المختارة</button>
+            }
+            <button class="btn btn-comment" (click)="navigateTocomment()">تعليقات الإعلان</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

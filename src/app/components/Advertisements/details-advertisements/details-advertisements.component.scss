@@ -1,0 +1,82 @@
+.all-imgs {
+  background-color: var(--bg-main);
+  height: 80vh;
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 0px 12px;
+  overflow: auto;
+}
+
+.all-imgs .imgs {
+  padding: 10px 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.all-imgs .imgs.active {
+  background-color: var(--sidebar-color);
+}
+
+.imgs img {
+  width: 50%;
+}
+
+.details {
+  background-color: var(--bg-main);
+  height: auto;
+  min-height: 80vh;
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 15px;
+}
+
+.details .title {
+  color: var(--second-color);
+}
+
+.details .content p {
+  font-size: 20px;
+}
+
+.details .content p strong {
+  font-size: 25px;
+}
+
+.details .img img {
+  width: 50%;
+  height: 50%;
+}
+
+.details .buttons {
+  background: var(--sidebar-color);
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 10px;
+}
+
+.details .buttons .btn-edit ,
+.details .buttons .btn-delete ,
+.details .buttons .btn-comment {
+  background: #EDBD1C;
+  border: 1px solid #EDBD1C;
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.details .buttons .btn-delete {
+  background: #BB2D3B;
+  border: 1px solid #BB2D3B;
+  color: #fff;
+}
+
+.details .buttons .btn-comment {
+  background: var(--second-color);
+  border: 1px solid var(--second-color);
+  color: #fff;
+}

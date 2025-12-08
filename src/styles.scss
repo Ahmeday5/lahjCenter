@@ -1,0 +1,46 @@
+:root {
+  --sidebar-color: #54bc6452;
+  --main-color: #3c3c3c;
+  --second-color: #54bc64;
+  --thrid-color: #93a3ab;
+  --bg-main: #ffffff;
+  --font-arabic: "Lexend"; /* الخط العربي الافتراضي */
+  --font-latin: "Inter"; /* الخط اللاتيني الافتراضي */
+}
+
+body {
+  margin: 0 !important; /* إزالة الهوامش الافتراضية */
+  font-family: "Cairo", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100; /* الخط الافتراضي للنصوص العربية */
+  direction: rtl; /* اتجاه النص من اليمين للشمال */
+}
+
+.form-control:focus {
+  outline: none; /* إزالة الإطار الأزرق الافتراضي */
+  box-shadow: 0 0 5px rgba(27, 116, 187, 0.5); /* إضافة ظل خفيف كبديل للـ outline */
+}
+
+.Editcontainer {
+  width: 98%;
+  height: auto;
+  min-height: 87vh;
+  background: var(--bg-main);
+  border: 1px solid #a2a1a833;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+/*************alert*******************/
+svg {
+  width: 30px;
+  height: 25px;
+  margin-left: 20px;
+}
+
+@media (max-width: 576px) {
+  .btn-add {
+    width: 100% !important;
+  }
+}

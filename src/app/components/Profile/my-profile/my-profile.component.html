@@ -1,0 +1,130 @@
+<div class="container pt-3">
+  <div class="row">
+
+    <!-- حالة التحميل -->
+    @if (loading) {
+    <div class="col-12 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">جاري التحميل...</span>
+      </div>
+    </div>
+    }
+
+    <!-- تعريف الأيقونات -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check-circle-fill" viewBox="0 0 16 16">
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+      </symbol>
+      <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+        <path
+          d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+      </symbol>
+    </svg>
+
+    <!-- رسائل الخطأ -->
+    @if (nomyProfileMessage) {
+    <div class="col-12 mt-3">
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+          <use xlink:href="#exclamation-triangle-fill" />
+        </svg>
+        <div>{{ nomyProfileMessage }}</div>
+      </div>
+    </div>
+    }
+
+    <!-- عرض الملف الشخصي -->
+    @if (myProfile) {
+    <div class="col-md-12 mb-4">
+      <div class="details d-flex flex-wrap">
+        <div class="col-12">
+          <div class="row">
+            <h1 class="title text-center">التفاصيل</h1>
+            <div class="col-md-6 content">
+              <p><strong>الاسم الأول: </strong> {{ myProfile.firstName || 'غير متوفر' }}</p>
+              <p><strong>الاسم الأخير: </strong> {{ myProfile.lastName || 'غير متوفر' }}</p>
+              <p><strong>البريد الإلكتروني: </strong> {{ myProfile.email || 'غير متوفر' }}</p>
+              <p><strong>رقم الهاتف: </strong> {{ myProfile.phoneNumber || 'غير متوفر' }}</p>
+              <p><strong>النشاط: </strong> {{ myProfile.activity || 'غير متوفر' }}</p>
+              <p><strong>الدور: </strong> {{ myProfile.role === 'Admin' ? 'أدمن' : 'عضو' }}</p>
+              <p><strong>الاسم بالكامل: </strong> {{ myProfile.fullName || 'غير متوفر' }}</p>
+              <p><strong>تاريخ الانضمام: </strong> {{ myProfile.addDate || 'غير متوفر' }}</p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-content-center align-items-center img">
+              @if (myProfile.imageUrl) {
+              <img [src]="myProfile.imageUrl" alt="صورة الملف الشخصي" class="img-fluid"
+                style="max-width: 200px; height: auto;">
+              } @else {
+              <img src="/assets/img/details adev/ts.png" alt="لا توجد صورة" class="img-fluid"
+                style="max-width: 200px; height: auto;">
+              }
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="col-md-12 mt-5 buttons d-flex justify-content-center align-content-center align-items-center">
+            <button class="btn btn-edit" (click)="navigateToEditProfile()">تحديث حسابي</button>
+            <button class="btn btn-pass" data-bs-toggle="modal" data-bs-target="#passwordModal">تحديث كلمة
+              المرور</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    <!-- مودال تحديث كلمة المرور -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="passwordModalLabel">تحديث كلمة المرور</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="updatePassword()">
+              <div class="mb-3">
+                <label for="oldPassword" class="form-label">كلمة المرور القديمة</label>
+                <input type="password" class="form-control" id="oldPassword" name="oldPassword"
+                  [(ngModel)]="passwordForm.oldPassword" required />
+              </div>
+              <div class="mb-3">
+                <label for="newPassword" class="form-label">كلمة المرور الجديدة</label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword"
+                  [(ngModel)]="passwordForm.newPassword" required />
+              </div>
+              @if (passwordLoading) {
+              <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">جاري التحديث...</span>
+                </div>
+              </div>
+              }
+              @if (passwordErrorMessage) {
+              <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                  <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <div>{{ passwordErrorMessage }}</div>
+              </div>
+              }
+              @if (passwordSuccessMessage) {
+              <div class="alert alert-success d-flex align-items-center mt-3" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                  <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>{{ passwordSuccessMessage }}</div>
+              </div>
+              }
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+            <button type="button" class="btn btn-primary" (click)="updatePassword()"
+              [disabled]="passwordLoading">تحديث</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.cards {
+  padding: 0 30px;
+}
+
+.card {
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2098);
+  border-radius: 7px;
+  max-height: 100px;
+  border-radius: 12px;
+}
+
+.card .card-body .text-content {
+  color: var(--main-color);
+}
+
+.card .card-title,
+.card .card-text {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 992px) {
+  .bg {
+    padding: 15px;
+  }
+}

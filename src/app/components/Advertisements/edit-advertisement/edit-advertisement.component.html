@@ -1,0 +1,121 @@
+<div class="container mt-5">
+  @if (loading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">جاري التحميل...</span>
+      </div>
+    </div>
+  } @if (errorMessage) {
+    <div class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  } @if (successMessage) {
+    <div class="alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
+  } @if (advertisement) {
+    <h1 class="text-center mb-4 top-title">تعديل الإعلان</h1>
+    <div class="row">
+      <!-- قسم الصور الجانبية -->
+      <div class="col-md-3 mb-4">
+        <div class="all-imgs">
+          <div class="row">
+            @for (image of advertisement.advertisementImages; track image.id) {
+              <div class="col-md-12 d-flex justify-content-center align-content-center mb-3 imgs"
+                [ngClass]="{ 'active': selectedImage?.id === image.id }" (click)="selectImage(image)">
+                <img [src]="image.imageName" alt="Advertisement Image">
+              </div>
+            }
+            @empty {
+              <div class="col-md-12 d-flex justify-content-center align-content-center mb-3 imgs">
+                <img src="/assets/img/details adev/ts.png" alt="No Image" class="img-fluid">
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 mb-4">
+        <div class="details d-flex flex-wrap">
+          <div class="col-12">
+            <form (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="name" class="form-label">الاسم</label>
+                  <input type="text" class="form-control" id="name" [(ngModel)]="formData.name" name="name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">رقم الهاتف</label>
+                  <input type="text" class="form-control" id="phone" [(ngModel)]="formData.phone" name="phone" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="groupId" class="form-label">الفئة</label>
+                  <select class="form-control" id="groupId" [(ngModel)]="formData.groupId" name="groupId" required>
+                    <option *ngFor="let group of groups" [value]="group.id">{{ group.arName }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="serviceId" class="form-label">الخدمة</label>
+                  <select class="form-control" id="serviceId" [(ngModel)]="formData.serviceId" name="serviceId" required>
+                    <option *ngFor="let service of services" [value]="service.id">{{ service.arName }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="price" class="form-label">السعر</label>
+                  <input type="number" class="form-control" id="price" [(ngModel)]="formData.price" name="price" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="currencyId" class="form-label">العملة</label>
+                  <select class="form-control" id="currencyId" [(ngModel)]="formData.currencyId" name="currencyId" required>
+                    <option *ngFor="let currency of currencies" [value]="currency.id">{{ currency.arName }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="governorateId" class="form-label">المحافظة</label>
+                  <select class="form-control" id="governorateId" [(ngModel)]="formData.governorateId" name="governorateId" required>
+                    <option *ngFor="let governorate of governorates" [value]="governorate.id">{{ governorate.arName }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="area" class="form-label">المنطقة</label>
+                  <input type="text" class="form-control" id="area" [(ngModel)]="formData.area" name="area">
+                </div>
+                <div class="col-md-12 mb-3">
+                  <label for="description" class="form-label">الوصف</label>
+                  <textarea class="form-control" id="description" [(ngModel)]="formData.description" name="description"></textarea>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <label for="isCloseReplies" class="form-label">إغلاق التعليقات</label>
+                  <input type="checkbox" class="form-check-input" id="isCloseReplies" [(ngModel)]="formData.isCloseReplies" name="isCloseReplies">
+                  <small class="form-text text-muted">حدد لإغلاق التعليقات، أو اتركه لتظل مفتوحة</small>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <label for="images" class="form-label">إضافة صور جديدة</label>
+                  <input type="file" class="form-control" id="images" (change)="onFileChange($event)" multiple>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <h3>معاينة الصور الجديدة</h3>
+                  <div class="row">
+                    @for (preview of imagePreviews; track $index) {
+                      <div class="col-md-3 mb-3">
+                        <img [src]="preview" alt="New Image Preview" class="img-fluid">
+                      </div>
+                    }
+                    @empty {
+                      <p>لا توجد صور جديدة للمعاينة</p>
+                    }
+                  </div>
+                </div>
+                <div class="col-md-12 mt-5 buttons d-flex justify-content-center align-content-center align-items-center">
+                  @if (selectedImage) {
+                    <button type="button" class="btn btn-delete" (click)="deleteSelectedImage()">حذف الصورة المختارة</button>
+                  }
+                  <button type="submit" class="btn btn-edit">تأكيد التعديل</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

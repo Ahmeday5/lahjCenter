@@ -1,0 +1,21 @@
+
+<div class="container mt-3 mb-3">
+  <div class="header">
+    <div class="title mt-1">
+      <h3>
+        <span *ngFor="let crumb of breadcrumbs; let last = last">
+          <a [routerLink]="crumb.url">{{ crumb.label }}</a>
+        </span>
+      </h3>
+      <h6 class="lead">معلومات تفصيلية</h6>
+    </div>
+    <div class="welocome d-flex">
+      <div class="notifcation">
+        <i class="fa-regular fa-user mt-2" style="cursor: pointer;" (click)="navigateToProfile()"></i>
+      </div>
+      <div class="profile d-flex">
+        <h2 class="profile-title ms-2">Welcome {{ username }}</h2>
+      </div>
+    </div>
+  </div>
+</div>

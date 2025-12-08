@@ -1,0 +1,90 @@
+/********************table****************/
+
+.custom-table {
+    border-collapse: separate;
+    /* لفصل الصفوف */
+    border-spacing: 0 8px;
+    /* مسافة بين الصفوف */
+    width: 100%;
+  
+    font-size: 16px;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+  }
+  
+  .custom-table th {
+    border-right: 2px solid #a2a1a826;
+    border-top: 2px solid #a2a1a826;
+    border-bottom: 2px solid #a2a1a826;
+  }
+  
+  .custom-table th:last-child {
+    border-left: 2px solid #a2a1a826;
+  }
+  
+  .custom-table thead th {
+    color: var(--mian-color);
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .custom-table tbody td {
+    color: var(--mian-color);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  
+  .custom-table tbody .employee-img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .custom-table .btn {
+    border: none;
+  }
+  
+  .alert h4 {
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--second-color);
+  }
+  
+  /********* All-Padination *************/
+  .All-Padination {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination .page-item {
+    border: 1px solid var(--second-color);
+    border-radius: 12px;
+    margin-right: 5px;
+  }
+  
+  .pagination .page-item.active {
+    background: var(--second-color);
+    color: black;
+  }
+  
+  .pagination .page-link {
+    border: none;
+    color: var(--third-color);
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 22px;
+    vertical-align: middle;
+    box-shadow: none !important;
+    background: transparent !important;
+    transition: border 0.3s ease;
+  }

@@ -1,0 +1,43 @@
+<div class="container mt-5">
+    <div class="details d-flex flex-wrap">
+        <div class="col-12">
+            @if (loading) {
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">جاري التحميل...</span>
+                </div>
+            </div>
+            }
+            @if (errorMessage) {
+            <div class="alert alert-danger" role="alert">
+                {{ errorMessage }}
+            </div>
+            }
+            @if (successMessage) {
+            <div class="alert alert-success" role="alert">
+                {{ successMessage }}
+            </div>
+            }
+
+            <h1 class="text-center mt-4 mb-4">تعديل الخدمة</h1>
+            <form class="mt-3" (ngSubmit)="updateServices()" #serviceForm="ngForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="arName" class="form-label">الاسم بالعربية</label>
+                        <input type="text" class="form-control" id="arName" [(ngModel)]="serviceData.arName"
+                            name="arName" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="enName" class="form-label">الاسم بالإنجليزية</label>
+                        <input type="text" class="form-control" id="enName" [(ngModel)]="serviceData.enName"
+                            name="enName" required>
+                    </div>
+                    <div class="col-md-12 mt-5 buttons d-flex justify-content-center">
+                        <button type="submit" class="btn btn-edit w-25" [disabled]="serviceForm.invalid">حفظ
+                            التعديل</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

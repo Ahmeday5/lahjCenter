@@ -1,0 +1,48 @@
+<div class="container mt-5">
+  @if (loading) {
+  <div class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">جاري التحميل...</span>
+    </div>
+  </div>
+  }@else if (errorMessage) {
+  <div class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+  }
+  @else if (user) {
+  <div class="row">
+    <!-- قسم التفاصيل والصورة الرئيسية -->
+    <div class="col-md-12 mb-4">
+      <div class="details d-flex flex-wrap">
+        <div class="col-12">
+          <div class="row">
+            <h1 class="title text-center">التفاصيل</h1>
+            <div class="col-md-6 content">
+              <p><strong>الاسم : </strong> {{ user.fullName || 'غير متوفر' }}</p>
+              <p><strong>الايميل : </strong> {{ user.email || 'غير متوفر' }}</p>
+              <p><strong>رقم الهاتف : </strong> {{ user.phoneNumber }}</p>
+              <p><strong>النشاط : </strong> {{ user.activity || 'غير متوفر' }}</p>
+              <p><strong>الحالة : </strong> {{ user.isActive ? 'نشط' : 'غير نشط' || 'غير متوفر' }}</p>
+              <p><strong>الدور : </strong> {{ user.role == 'Member' ? 'عضو' : 'ادمن' || 'غير متوفر' }}</p>
+              <p><strong>تاريخ الانضمام : </strong> {{ formatDate(user.addDate) }}</p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-content-center align-items-center img">
+              @if(user.imageUrl) {
+              <img [src]="user.imageUrl" alt="User Image" class="img-fluid">
+              }@else {
+              <img src="/assets/img/details adev/ts.png" alt="User Image" class="img-fluid">
+              }
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="col-md-12 mt-5 buttons d-flex justify-content-center align-content-center align-items-center">
+            <button class="btn btn-edit" (click)="navigateToEdit()">تحديث المستخدم</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

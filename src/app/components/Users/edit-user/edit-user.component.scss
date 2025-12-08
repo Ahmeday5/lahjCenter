@@ -1,0 +1,65 @@
+.details {
+  background-color: var(--bg-main);
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 15px;
+}
+
+.details form .form-label {
+  color: var(--second-color);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.details form .form-control,
+.details form .form-check-input,
+.details form .form-select {
+  border: 1px solid #a2a1a833;
+  box-shadow: 1px 1px 4px 0px #00000040;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.details form .form-control:focus,
+.details form .form-select:focus {
+  border: 1px solid var(--sidebar-color);
+  box-shadow: 1px 1px 4px 0px #00000040;
+  background: transparent;
+  box-shadow: none;
+}
+
+.details form .form-check-input {
+  margin-right: 7px;
+  margin-left: 7px;
+}
+
+.details .buttons {
+  background: var(--sidebar-color);
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 10px;
+}
+
+.details .buttons .btn-edit {
+  background: #edbd1c;
+  border: 1px solid #edbd1c;
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.details .buttons .btn-delete {
+  background: #bb2d3b;
+  border: 1px solid #bb2d3b;
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+}

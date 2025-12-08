@@ -1,0 +1,51 @@
+.details {
+  background-color: var(--bg-main);
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 15px;
+}
+
+.details .title {
+  color: var(--second-color);
+}
+
+.details .content p {
+  font-size: 20px;
+}
+
+.details .content p strong {
+  font-size: 25px;
+}
+
+.details .img img {
+  width: 50%;
+  height: 50%;
+}
+
+.details .buttons {
+  background: var(--sidebar-color);
+  border-radius: 10px;
+  border: 1px solid #a2a1a833;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  padding: 10px;
+}
+
+.details .buttons .btn-edit ,
+.details .buttons .btn-pass {
+  background: #EDBD1C;
+  border: 1px solid #EDBD1C;
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+.details .buttons .btn-pass {
+  background: var(--second-color);
+  border: 1px solid var(--second-color);
+  color: #fff;
+}
