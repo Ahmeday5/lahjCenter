@@ -1,5 +1,5 @@
-<div class="Editcontainer mt-5 mb-4">
-  <div class="container pt-3">
+<div class="container-fluid mt-5 mb-4">
+  <div class="Editcontainer pt-3">
     <div class="row">
       <div class="col-md-6">
         <!---------------------filter-------------------->
@@ -21,7 +21,8 @@
       <div class="col-md-6">
         <!---------------------Search-------------------->
         <div class="search-container">
-          <input #searchInput type="text" class="form-control" placeholder="البحث عن الاعلانات المقبولة....." aria-label="Search" />
+          <input #searchInput type="text" class="form-control" placeholder="البحث عن الاعلانات المقبولة....."
+            aria-label="Search" />
           <i class="fas fa-search search-icon"></i>
         </div>
       </div>
@@ -90,20 +91,27 @@
           <table class="custom-table">
             <thead>
               <tr>
+                <th>#</th>
                 <th>اسم الإعلان</th>
+                <th>اسم صاحب الاعلان</th>
                 <th>رقم الجوال</th>
                 <th>صور</th>
+                <th>الفئة</th>
                 <th>الخدمة</th>
                 <th>المحافظة</th>
+                <th>المنطقة</th>
                 <th>السعر</th>
+                <th>الحالة</th>
                 <th>اجراءات</th>
               </tr>
             </thead>
             <tbody>
-              @for (advertisement of displayedAdvertisement; track advertisement.id) {
+              @for (advertisement of displayedAdvertisement; track advertisement.id;let i = $index) {
               <tr>
+                <td>{{ i + 1 }}</td>
                 <td>{{ advertisement.name || 'غير متوفر' }}</td>
                 <td>{{ advertisement.memberName || 'غير متوفر' }}</td>
+                <td>{{ advertisement.phone || 'غير متوفر' }}</td>
                 <td>
                   @if (advertisement.advertisementImages.length > 0) {
                   <img src="{{ advertisement.advertisementImages[0].imageName }}" alt="Advertisement Picture"
@@ -113,10 +121,21 @@
                     class="employee-img rounded-circle" />
                   }
                 </td>
+                <td>{{ advertisement.groupName || 'غير متوفر' }}</td>
                 <td>{{ advertisement.serviceName || 'غير متوفر' }}</td>
                 <td>{{ advertisement.governorateName || 'غير متوفر' }}</td>
+                <td>{{ advertisement.area || 'غير متوفر' }}</td>
                 <td>
                   {{ advertisement.price }} {{ advertisement.currencyName }}
+                </td>
+                <td>
+                  @if(advertisement.status == 'New') {
+                  جديدة
+                  }@else if (advertisement.status == 'Deleted') {
+                  محذوفة
+                  }@else if (advertisement.status == 'Approved') {
+                  مقبولة
+                  }
                 </td>
                 <td>
                   <button class="btn btn-sm" (click)="navigateToDetails(advertisement.id)">
@@ -127,12 +146,12 @@
                     <i class="fa-solid fa-check" style="color: green;"></i>
                   </button>
                   }
-                  @if (advertisement.status === 'Deleted') {
+                  @else if (advertisement.status === 'Deleted') {
                   <button class="btn btn-sm ms-2" (click)="restoreAdvertisement(advertisement.id)" title="استرجاع">
                     <i class="fa-solid fa-rotate-left" style="color: blue;"></i>
                   </button>
                   }
-                  @if (advertisement.status === 'New' || advertisement.status === 'Approved') {
+                  @else if (advertisement.status === 'New' || advertisement.status === 'Approved') {
                   <button class="btn btn-sm ms-2" (click)="openDeleteModal(advertisement.id)" title="حذف">
                     <i class="fa-solid fa-trash" style="color: red;"></i>
                   </button>
@@ -173,22 +192,8 @@
         }
       </div>
 
-      <!---------------------Pagination-------------------->
-      @if (totalPages > 0) {
-      <div class="All-Padination mt-2" dir="ltr">
-        <nav>
-          <ul class="pagination justify-content-center">
-            @for (page of pages; track page) {
-            <li class="page-item" [class.active]="page === currentPage">
-              <button class="page-link" (click)="onPageChange(page)">
-                {{ page }}
-              </button>
-            </li>
-            }
-          </ul>
-        </nav>
-      </div>
-      }
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [windowSize]="1"
+        (pageChange)="onPageChange($event)"></app-pagination>
     </div>
   </div>
 </div>

@@ -35,25 +35,21 @@ export class AuthService {
     if (userData) {
       try {
         this.userData = JSON.parse(userData) as UserData;
-        if (this.userData?.roles) {
-          this.isLoggedInSubject.next(true);
-        }
-      } catch (error) {
-        console.error('خطأ في تحليل userData:', error);
+        this.isLoggedInSubject.next(true);
+      } catch {
         this.logout();
       }
     }
   }
 
   login(response: UserData): void {
-    if (!response.email || !response.token) {
-      throw new Error('بيانات تسجيل الدخول غير صالحة');
-    }
     this.userData = response;
     this.isLoggedInSubject.next(true);
+
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userData', JSON.stringify(response));
-    localStorage.setItem('token', response.token || '');
+    localStorage.setItem('token', response.token ?? '');
+
     if (response.rememberMe) {
       localStorage.setItem('savedEmail', response.email);
     } else {
@@ -62,24 +58,42 @@ export class AuthService {
   }
 
   logout(): void {
-    if (this.isLoggedInSubject.value) {
-      this.isLoggedInSubject.next(false);
-      this.userData = null;
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('savedEmail');
-      localStorage.removeItem('token');
-    }
+    this.isLoggedInSubject.next(false);
+    this.userData = null;
+
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('token');
+    localStorage.removeItem('savedEmail');
   }
 
   getUserData(): UserData | null {
     return this.userData;
   }
 
+  // ✅ ترجع التوكن فقط
   getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  private decodeToken(token: string): any | null {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch {
+      return null;
+    }
+  }
+
+  // ✅ فحص حقيقي لانتهاء التوكن
+  isTokenExpired(): boolean {
     const token = localStorage.getItem('token');
-    console.log('توكن من AuthService:', token);
-    return token;
+    if (!token) return true;
+
+    const decoded = this.decodeToken(token);
+    if (!decoded?.exp) return true;
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp <= currentTime;
   }
 
   getSavedEmail(): string | null {

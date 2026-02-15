@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { PaginationComponent } from "../../../layout/pagination/pagination.component";
 
 @Component({
   selector: 'app-comments-advertisement',
   standalone: true,
-  imports: [],
+  imports: [PaginationComponent],
   templateUrl: './comments-advertisement.component.html',
   styleUrls: ['./comments-advertisement.component.scss'],
 })

@@ -23,13 +23,18 @@ body {
 }
 
 .Editcontainer {
-  width: 98%;
+  width: 100%;
   height: auto;
-  min-height: 87vh;
+  min-height: 86vh;
   background: var(--bg-main);
   border: 1px solid #a2a1a833;
   border-radius: 10px;
   box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.container-fluid {
+  padding-right: 0px !important;
+  padding-left: 20px !important;
 }
 
 /*************alert*******************/

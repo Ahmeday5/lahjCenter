@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
 import { Router } from '@angular/router';
+import { PaginationComponent } from "../../../layout/pagination/pagination.component";
 
 @Component({
   selector: 'app-all-currency',
   standalone: true,
-  imports: [],
+  imports: [PaginationComponent],
   templateUrl: './all-currency.component.html',
   styleUrl: './all-currency.component.scss',
 })

@@ -1,4 +1,8 @@
 import { CanActivateFn, Routes } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { map, Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AllAdvertisementComponent } from './components/Advertisements/all-advertisement/all-advertisement.component';
@@ -17,17 +21,21 @@ import { EditServiceComponent } from './components/Service/edit-service/edit-ser
 import { AllGovernorateComponent } from './components/Governorate/all-Governorate/all-Governorate.component';
 import { AddGovernorateComponent } from './components/Governorate/add-Governorate/add-Governorate.component';
 import { EditGovernorateComponent } from './components/Governorate/edit-Governorate/edit-Governorate.component';
-import { AllcurrencyComponent } from './components/Currency/all-currency/all-Governorate.component';
+import { AllcurrencyComponent } from './components/Currency/all-currency/all-CurrencyComponent.component';
 import { AddcurrencyComponent } from './components/Currency/add-currency/add-currency.component';
 import { EditcurrencyComponent } from './components/Currency/edit-currency/edit-currency.component';
 import { DetailsAdvertisementsComponent } from './components/Advertisements/details-advertisements/details-advertisements.component';
 import { EditAdvertisementComponent } from './components/Advertisements/edit-advertisement/edit-advertisement.component';
 import { CommentsAdvertisementComponent } from './components/Advertisements/comments-advertisement/comments-advertisement.component';
 import { CommentReportComponent } from './components/comment-report/comment-report.component';
-import { AuthService } from './services/auth.service';
-import { map, Observable } from 'rxjs';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { AllSliderComponent } from './components/slider/all-slider/all-slider.component';
+import { AddSliderComponent } from './components/slider/add-slider/add-slider.component';
+import { AllAreasComponent } from './components/areas/all-areas/all-areas.component';
+import { AddAreaComponent } from './components/areas/add-area/add-area.component';
+import { EditAreaComponent } from './components/areas/edit-area/edit-area.component';
+import { AllSubgroupsComponent } from './components/subgroups/all-subgroups/all-subgroups.component';
+import { AddSubgroupComponent } from './components/subgroups/add-subgroup/add-subgroup.component';
+import { EditSubgroupComponent } from './components/subgroups/edit-subgroup/edit-subgroup.component';
 
 export const canActivate: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -106,6 +114,24 @@ export const routes: Routes = [
     data: { breadcrumb: 'تعديل الفئة' },
   },
   {
+    path: 'all-subGroups',
+    component: AllSubgroupsComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'جميع الفئات الفرعية' },
+  },
+  {
+    path: 'add-subGroup',
+    component: AddSubgroupComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'إضافة فئة الفرعية' },
+  },
+  {
+    path: 'edit-subGroup/:id',
+    component: EditSubgroupComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'تعديل الفئة الفرعية' },
+  },
+  {
     path: 'all-service',
     component: AllServiceComponent,
     canActivate: [canActivate],
@@ -140,6 +166,24 @@ export const routes: Routes = [
     component: EditGovernorateComponent,
     canActivate: [canActivate],
     data: { breadcrumb: 'تعديل المحافظة' },
+  },
+  {
+    path: 'all-areas',
+    component: AllAreasComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'جميع المناطق' },
+  },
+  {
+    path: 'add-area',
+    component: AddAreaComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'إضافة منطقة' },
+  },
+  {
+    path: 'edit-area/:id',
+    component: EditAreaComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'تعديل المنطقة' },
   },
   {
     path: 'all-currency',
@@ -206,6 +250,18 @@ export const routes: Routes = [
     component: CommentReportComponent,
     canActivate: [canActivate],
     data: { breadcrumb: 'بلاغات التعليقات' },
+  },
+  {
+    path: 'all-slider',
+    component: AllSliderComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'جميع البانرات' },
+  },
+  {
+    path: 'add-slider',
+    component: AddSliderComponent,
+    canActivate: [canActivate],
+    data: { breadcrumb: 'إضافة بانر جديد' },
   },
   { path: '**', redirectTo: '' },
 ];

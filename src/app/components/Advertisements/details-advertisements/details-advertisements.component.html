@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container-fluid mt-5">
   @if (loading) {
   <div class="text-center">
     <div class="spinner-border text-primary" role="status">
@@ -14,7 +14,7 @@
   <div class="row">
     <!-- قسم الصور الجانبية -->
     <div class="col-md-3 mb-4">
-      <div class="all-imgs">
+      <div class="all-imgs h-100">
         <div class="row">
           @for (image of advertisement.advertisementImages; track image.id) {
           <div class="col-md-12 d-flex justify-content-center align-content-center mb-3 imgs"
@@ -37,13 +37,25 @@
           <div class="row">
             <h1 class="title text-center">التفاصيل</h1>
             <div class="col-md-6 content">
+              <p><strong>اسم الاعلان : </strong> {{ advertisement.name || 'غير متوفر' }}</p>
+              <p><strong>اسم صاحب الاعلان : </strong> {{ advertisement.memberName || 'غير متوفر' }}</p>
               <p><strong>الفئة : </strong> {{ advertisement.groupName || 'غير متوفر' }}</p>
               <p><strong>الخدمة : </strong> {{ advertisement.serviceName || 'غير متوفر' }}</p>
               <p><strong>السعر : </strong> {{ advertisement.price }} {{ advertisement.currencyName || 'غير متوفر' }}</p>
               <p><strong>المحافظة : </strong> {{ advertisement.governorateName || 'غير متوفر' }}</p>
               <p><strong>المنطقة : </strong> {{ advertisement.area || 'غير متوفر' }}</p>
               <p><strong>الوصف : </strong> {{ advertisement.description || 'غير متوفر' }}</p>
-              <p><strong>الحالة : </strong> {{ advertisement.status || 'غير متوفر' }}</p>
+              <p><strong>الحالة : </strong> @if(advertisement.status == 'New') {
+                جديدة
+                }@else if (advertisement.status == 'Deleted') {
+                محذوفة
+                }@else if (advertisement.status == 'Approved') {
+                مقبولة
+                }</p>
+              @if (advertisement.status
+              == 'Deleted') {
+              <p><strong>سبب الحذف : </strong> {{ advertisement.deletionReason || 'غير متوفر' }}</p>
+              }
               <p><strong>تاريخ الإعلان : </strong> {{ formatDate(advertisement.date) }}</p>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-content-center align-items-center img">

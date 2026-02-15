@@ -16,11 +16,12 @@ import {
   distinctUntilChanged,
   map,
 } from 'rxjs';
+import { PaginationComponent } from "../../../layout/pagination/pagination.component";
 
 @Component({
   selector: 'app-all-advertisement',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, PaginationComponent],
   templateUrl: './all-advertisement.component.html',
   styleUrls: ['./all-advertisement.component.scss'],
 })
@@ -108,9 +109,9 @@ export class AllAdvertisementComponent implements OnInit, AfterViewInit {
     this.selectedStatus = null;
     this.searchQuery = '';
     this.currentPage = 1;
-    this.apiService.getAdvertisementByGroupId(groupId).subscribe({
+    this.apiService.getAllAdvertisement().subscribe({
       next: (data) => {
-        this.advertisements = data;
+        this.advertisements = data.filter((ad: any) => ad.groupId === groupId);
         if (this.advertisements.length === 0) {
           this.noadvertisementMessage = `لا يوجد إعلانات في هذه فئة: ${this.getGroupName(
             groupId
@@ -286,6 +287,10 @@ export class AllAdvertisementComponent implements OnInit, AfterViewInit {
   }
 
   approveAdvertisement(id: number) {
+    const confirmed = confirm('هل أنت متأكد من قبول هذا الإعلان؟');
+    if (!confirmed) {
+      return; // لو المستخدم قال لا → نوقف التنفيذ
+    }
     this.loading = true;
     this.noadvertisementMessage = null;
     this.advertisementMessage = null; // إعادة تعيين رسالة النجاح
@@ -298,6 +303,8 @@ export class AllAdvertisementComponent implements OnInit, AfterViewInit {
           ad.status = 'Approved';
         }
         // تأخير تطبيق الفلاتر وعرض رسالة "لا يوجد إعلانات" بعد اختفاء رسالة النجاح
+        // نرجع الصفحة للأولى + نعيد تطبيق الفلاتر
+        this.currentPage = 1;
         setTimeout(() => {
           this.advertisementMessage = null; // إخفاء رسالة النجاح
           this.applyFilters(); // تطبيق الفلاتر لتحديث القائمة
@@ -313,6 +320,10 @@ export class AllAdvertisementComponent implements OnInit, AfterViewInit {
   }
 
   restoreAdvertisement(id: number) {
+    const confirmed = confirm('هل أنت متأكد من استرجاع هذا الإعلان؟');
+    if (!confirmed) {
+      return;
+    }
     this.loading = true;
     this.noadvertisementMessage = null;
     this.advertisementMessage = null; // إعادة تعيين رسالة النجاح
@@ -324,6 +335,7 @@ export class AllAdvertisementComponent implements OnInit, AfterViewInit {
         if (ad) {
           ad.status = 'New';
         }
+        this.currentPage = 1;
         setTimeout(() => {
           this.advertisementMessage = null; // إخفاء رسالة النجاح
           this.applyFilters(); // تطبيق الفلاتر لتحديث القائمة
@@ -369,6 +381,7 @@ export class AllAdvertisementComponent implements OnInit, AfterViewInit {
             if (ad) {
               ad.status = 'Deleted';
             }
+            this.currentPage = 1;
             this.applyFilters();
             const modal = (window as any).bootstrap.Modal.getInstance(
               document.getElementById('deleteModal')

@@ -91,7 +91,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         ],
       },
       {
-        label: 'الفئات',
+        label: 'الفئات الرئيسية',
         path: null,
         icons: 'fa-solid fa-layer-group',
         isOpen: false,
@@ -104,6 +104,24 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           {
             key: 'إضافة فئة جديد',
             path: '/add-group',
+            icon: 'fa-solid fa-plus-square',
+          },
+        ],
+      },
+      {
+        label: 'الفئات الفرعية',
+        path: null,
+        icons: 'fa-solid fa-layer-group',
+        isOpen: false,
+        submenu: [
+          {
+            key: 'إدارة الفئات الفرعية',
+            path: '/all-subGroups',
+            icon: 'fa-solid fa-list-alt',
+          },
+          {
+            key: 'إضافة فئة فرعية جديد',
+            path: '/add-subGroup',
             icon: 'fa-solid fa-plus-square',
           },
         ],
@@ -145,6 +163,24 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         ],
       },
       {
+        label: 'المناطق',
+        path: null,
+        icons: 'fa-solid fa-map-marked-alt',
+        isOpen: false,
+        submenu: [
+          {
+            key: 'إدارة المناطق',
+            path: '/all-areas',
+            icon: 'fa-solid fa-map-location',
+          },
+          {
+            key: 'إضافة منطقة جديد',
+            path: '/add-area',
+            icon: 'fa-solid fa-plus-circle',
+          },
+        ],
+      },
+      {
         label: 'العملات',
         path: null,
         icons: 'fa-solid fa-coins',
@@ -162,7 +198,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           },
         ],
       },
-      { label: 'التقارير', path: '/reports', icons: 'fa-solid fa-chart-bar' },
+      {
+        label: 'شريط البانرات',
+        path: null,
+        icons: 'fa-solid fa-images',
+        isOpen: false,
+        submenu: [
+          {
+            key: 'إدارة البانرات',
+            path: '/all-slider',
+            icon: 'fa-solid fa-list-ul',
+          },
+          {
+            key: 'إضافة بانر جديد',
+            path: '/add-slider',
+            icon: 'fa-solid fa-circle-plus',
+          },
+        ],
+      },
+      //{ label: 'التقارير', path: '/reports', icons: 'fa-solid fa-chart-bar' },
       { label: 'تسجيل الخروج', path: null },
     ];
 

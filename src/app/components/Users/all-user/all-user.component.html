@@ -1,5 +1,5 @@
-<div class="Editcontainer mt-5 mb-4">
-  <div class="container pt-3">
+<div class="container-fluid mt-5 mb-4">
+  <div class="Editcontainer pt-3">
     <div class="row">
 
       <!---------------------Search-------------------->
@@ -67,6 +67,7 @@
                   <th>تاريخ التسجيل</th>
                   <th>الحالة</th>
                   <th>الاجراءات</th>
+                  <th>اجراءات الحظر والتفعيل</th>
                 </tr>
               </thead>
               <tbody>
@@ -85,9 +86,30 @@
                     <button class="btn btn-sm btn-danger ms-2 mb-1" (click)="DeleteUser(user.id)" title="حذف">
                       حذف <i class="fa-solid fa-trash me-2" style="color: var(--bg-color);"></i>
                     </button>
-                    <button class="btn btn-sm btn-warning ms-2 mb-1" (click)="DeactivateUser(user.id)" title="حظر">
-                      حظر <i class="fa-solid fa-ban me-2" style="color: var(--bg-color);"></i>
-                    </button>
+                  </td>
+                  <td>
+                    <div class="d-flex flex-wrap gap-1">
+                      <!-- زر الحظر النهائي → يظهر دائمًا في كل الحالات -->
+                      <button class="btn btn-sm btn-danger mb-1" (click)="DeactivateUserAndRelated(user.id)"
+                        title="حظر نهائي (لا يمكن التراجع)">
+                        حظر نهائي
+                        <i class="fa-solid fa-gavel me-2"></i>
+                      </button>
+                      <!-- لو المستخدم مفعل → نظهر زر الحظر المؤقت -->
+                      @if (user.isActive) {
+                      <button class="btn btn-sm btn-warning mb-1" (click)="DeactivatedUser(user.id)" title="حظر مؤقت">
+                        حظر
+                        <i class="fa-solid fa-ban me-2"></i>
+                      </button>
+                      }
+                      <!-- لو المستخدم محظور (غير مفعل) → نظهر زر التفعيل -->
+                      @else {
+                      <button class="btn btn-sm btn-success mb-1" (click)="activatedUser(user.id)" title="تفعيل الحساب">
+                        تفعيل
+                        <i class="fa-solid fa-check me-2"></i>
+                      </button>
+                      }
+                    </div>
                   </td>
                 </tr>
                 }
@@ -100,20 +122,7 @@
       </div>
 
       <!---------------------Pagination-------------------->
-      @if (totalPages > 0) {
-      <div class="All-Padination mt-2" dir="ltr">
-        <nav>
-          <ul class="pagination justify-content-center">
-            @for (page of pages; track page) {
-            <li class="page-item" [class.active]="page === currentPage">
-              <button class="page-link" (click)="onPageChange(page)">
-                {{ page }}
-              </button>
-            </li>
-            }
-          </ul>
-        </nav>
-      </div>
-      }
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [windowSize]="1"
+        (pageChange)="onPageChange($event)"></app-pagination>
     </div>
   </div>

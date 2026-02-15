@@ -1,5 +1,5 @@
-<div class="Editcontainer mt-5 mb-4">
-  <div class="container pt-3">
+<div class="container-fluid mt-5 mb-4">
+  <div class="Editcontainer pt-3">
     <div class="row">
 
       <!---------------------loading-------------------->
@@ -77,21 +77,8 @@
           </div>
 
           <!---------------------Pagination-------------------->
-          @if (totalPages > 0) {
-          <div class="All-Padination mt-2" dir="ltr">
-            <nav>
-              <ul class="pagination justify-content-center">
-                @for (page of pages; track page) {
-                <li class="page-item" [class.active]="page === currentPage">
-                  <button class="page-link" (click)="onPageChange(page)">
-                    {{ page }}
-                  </button>
-                </li>
-                }
-              </ul>
-            </nav>
-          </div>
-          }
+          <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [windowSize]="1"
+            (pageChange)="onPageChange($event)"></app-pagination>
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { PaginationComponent } from '../../layout/pagination/pagination.component';
 
 @Component({
   selector: 'app-comment-report',
   standalone: true,
-  imports: [],
+  imports: [PaginationComponent],
   templateUrl: './comment-report.component.html',
   styleUrl: './comment-report.component.scss',
 })
@@ -87,7 +88,9 @@ export class CommentReportComponent implements OnInit {
           this.commentsReportMessage = 'تم قبول الابلاغ بنجاح';
           this.clearcommentsReportMessage(); // إزالة الرسالة بعد 5 ثوانٍ
           // حذف العنصر من القائمة المحليّة
-          this.displayedCommentsReport = this.displayedCommentsReport.filter(report => report.id !== id);
+          this.displayedCommentsReport = this.displayedCommentsReport.filter(
+            (report) => report.id !== id
+          );
           this.loading = false;
         },
         error: (error) => {
@@ -101,9 +104,7 @@ export class CommentReportComponent implements OnInit {
 
   deleteCommentReport(id: number) {
     if (
-      confirm(
-        'هل انت متاكد من حذف الابلاغ ؟ هذا الإجراء لا يمكن التراجع عنه'
-      )
+      confirm('هل انت متاكد من حذف الابلاغ ؟ هذا الإجراء لا يمكن التراجع عنه')
     ) {
       this.loading = true;
       this.nocommentsReportMessage = null;
@@ -114,7 +115,9 @@ export class CommentReportComponent implements OnInit {
           this.commentsReportMessage = 'تم حذف الابلاغ بنجاح';
           this.clearcommentsReportMessage(); // إزالة الرسالة بعد 5 ثوانٍ
           // حذف العنصر من القائمة المحليّة
-          this.displayedCommentsReport = this.displayedCommentsReport.filter(report => report.id !== id);
+          this.displayedCommentsReport = this.displayedCommentsReport.filter(
+            (report) => report.id !== id
+          );
           this.loading = false;
         },
         error: (error) => {
@@ -126,10 +129,10 @@ export class CommentReportComponent implements OnInit {
     }
   }
 
-    DeactivateUser(userId: number) {
+  DeactivateUserAndRelated(userId: number) {
     if (
       confirm(
-        'هل انت متاكد من حظر هذا المستخدم ؟ هذا الإجراء سيؤدي الي توقف ايميل المستخدم'
+        'هل انت متاكد من حظر هذا المستخدم ؟ هذا الإجراء سيؤدي الي توقف ايميل المستخدم و حذف جميع البيانات المتعلقة به'
       )
     ) {
       this.loading = true;
@@ -138,10 +141,52 @@ export class CommentReportComponent implements OnInit {
       this.apiService.DeactivateDeleteRelated(userId).subscribe({
         next: (response) => {
           console.log(response); // "Advertisement Approved Successfully"
-          this.commentsReportMessage = 'تم حظر المستخدم بنجاح';
+          this.commentsReportMessage =
+            'تم حظر المستخدم وحذف جميع البيانات المتعلقة به بنجاح';
           this.clearcommentsReportMessage(); // إزالة الرسالة بعد 5 ثوانٍ
           // حذف العنصر من القائمة المحليّة
-          this.displayedCommentsReport = this.displayedCommentsReport.filter(report => report.id !== userId);
+          this.displayedCommentsReport = this.displayedCommentsReport.filter(
+            (report) => report.id !== userId
+          );
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error(`خطأ في حظر المستخدم ${userId}:`, error);
+          this.nocommentsReportMessage = `فشل حظر المستخدم ${userId}`;
+          this.loading = false;
+        },
+      });
+    }
+  }
+
+  DeactivatedUser(userId: number) {
+    if (
+      confirm(
+        'هل انت متاكد من حظر هذا المستخدم ؟ هذا الإجراء سيؤدي الي توقف ايميل المستخدم'
+      )
+    ) {
+      this.loading = true;
+      this.nocommentsReportMessage = null;
+      this.commentsReportMessage = null;
+
+      this.apiService.DeactivateUser(userId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.commentsReportMessage = 'تم حظر المستخدم بنجاح';
+
+          // تحديث حالة isActive إلى false محليًا
+          const commentsRepor = this.commentsReport.find(
+            (u) => u.id === userId
+          );
+          if (commentsRepor) {
+            commentsRepor.isActive = false;
+          }
+
+          this.clearcommentsReportMessage();
+          // حذف العنصر من القائمة المحليّة
+          this.displayedCommentsReport = this.displayedCommentsReport.filter(
+            (report) => report.id !== userId
+          );
           this.loading = false;
         },
         error: (error) => {

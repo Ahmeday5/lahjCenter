@@ -16,11 +16,12 @@ import {
   distinctUntilChanged,
   map,
 } from 'rxjs';
+import { PaginationComponent } from '../../../layout/pagination/pagination.component';
 
 @Component({
   selector: 'app-all-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, PaginationComponent],
   templateUrl: './all-user.component.html',
   styleUrl: './all-user.component.scss',
 })
@@ -126,7 +127,44 @@ export class AllUserComponent implements OnInit, AfterViewInit {
     this.searchUsers(query);
   }
 
-  DeactivateUser(userId: number) {
+  DeactivateUserAndRelated(userId: number) {
+    if (
+      confirm(
+        'هل انت متاكد من حظر هذا المستخدم ؟ هذا الإجراء سيؤدي الي توقف ايميل المستخدم و حذف جميع البيانات المتعلقة به'
+      )
+    ) {
+      this.loading = true;
+      this.noUsersMessage = null;
+      this.UsersMessage = null;
+
+      this.apiService.DeactivateDeleteRelated(userId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.UsersMessage =
+            'تم حظر المستخدم وحذف جميع البيانات المتعلقة به بنجاح';
+
+          // تحديث حالة المستخدم محليًا (بدون ريفريش كامل)
+          const user = this.users.find((u) => u.id === userId);
+          if (user) {
+            user.isActive = false; // أو احذف السطر ده لو الحظر النهائي بيحذف المستخدم تمامًا
+            // لو الحظر النهائي بيحذف المستخدم من القائمة، استخدم السطر ده بداله:
+            // this.users = this.users.filter(u => u.id !== userId);
+          }
+
+          this.updateDisplayedUsers(); // تحديث الصفحة الحالية فقط
+          this.clearcommentsReportMessage();
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error(`خطأ في حظر المستخدم نهائيًا ${userId}:`, error);
+          this.noUsersMessage = `فشل حظر المستخدم نهائيًا ${userId}`;
+          this.loading = false;
+        },
+      });
+    }
+  }
+
+  DeactivatedUser(userId: number) {
     if (
       confirm(
         'هل انت متاكد من حظر هذا المستخدم ؟ هذا الإجراء سيؤدي الي توقف ايميل المستخدم'
@@ -134,12 +172,21 @@ export class AllUserComponent implements OnInit, AfterViewInit {
     ) {
       this.loading = true;
       this.noUsersMessage = null;
-      this.UsersMessage = null; // إعادة تعيين رسالة النجاح
-      this.apiService.DeactivateDeleteRelated(userId).subscribe({
+      this.UsersMessage = null;
+
+      this.apiService.DeactivateUser(userId).subscribe({
         next: (response) => {
-          console.log(response); // "Advertisement Approved Successfully"
+          console.log(response);
           this.UsersMessage = 'تم حظر المستخدم بنجاح';
-          this.clearcommentsReportMessage(); // إزالة الرسالة بعد 5 ثوانٍ
+
+          // تحديث حالة isActive إلى false محليًا
+          const user = this.users.find((u) => u.id === userId);
+          if (user) {
+            user.isActive = false;
+          }
+
+          this.updateDisplayedUsers(); // تحديث العرض فقط
+          this.clearcommentsReportMessage();
           this.loading = false;
         },
         error: (error) => {
@@ -151,8 +198,46 @@ export class AllUserComponent implements OnInit, AfterViewInit {
     }
   }
 
+  activatedUser(userId: number) {
+    if (
+      confirm(
+        'هل انت متاكد من تنشيط هذا المستخدم ؟ هذا الإجراء سيؤدي الي تفعيل ايميل المستخدم'
+      )
+    ) {
+      this.loading = true;
+      this.noUsersMessage = null;
+      this.UsersMessage = null;
+
+      this.apiService.activateUser(userId).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.UsersMessage = 'تم تنشيط المستخدم بنجاح';
+
+          // تحديث حالة isActive إلى true محليًا
+          const user = this.users.find((u) => u.id === userId);
+          if (user) {
+            user.isActive = true;
+          }
+
+          this.updateDisplayedUsers(); // تحديث العرض فقط
+          this.clearcommentsReportMessage();
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error(`خطأ في تنشيط المستخدم ${userId}:`, error);
+          this.noUsersMessage = `فشل تنشيط المستخدم ${userId}`;
+          this.loading = false;
+        },
+      });
+    }
+  }
+
   DeleteUser(userId: number) {
-    if (confirm(' انت متاكد من حذف هذا المستخدم ؟ هذا الإجراء لا يمكن التراجع عنه')) {
+    if (
+      confirm(
+        ' انت متاكد من حذف هذا المستخدم ؟ هذا الإجراء لا يمكن التراجع عنه'
+      )
+    ) {
       this.loading = true;
       this.noUsersMessage = null;
       this.UsersMessage = null; // إعادة تعيين رسالة النجاح
@@ -209,5 +294,5 @@ export class AllUserComponent implements OnInit, AfterViewInit {
   // دالة لتنسيق التاريخ
   formatDate(date: string): string {
     return date.split('T')[0]; // استخراج YYYY-MM-DD فقط
-  }
+  }
 }

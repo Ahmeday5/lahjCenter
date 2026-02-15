@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllGroupComponent } from './all-group.component';
+import { AllcurrencyComponent } from './all-CurrencyComponent.component';
 
-describe('AllGroupComponent', () => {
-  let component: AllGroupComponent;
-  let fixture: ComponentFixture<AllGroupComponent>;
+describe('AllcurrencyComponent', () => {
+  let component: AllcurrencyComponent;
+  let fixture: ComponentFixture<AllcurrencyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AllGroupComponent]
+      imports: [AllcurrencyComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AllGroupComponent);
+    fixture = TestBed.createComponent(AllcurrencyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

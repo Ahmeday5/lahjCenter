@@ -175,6 +175,109 @@ export class ApiService {
     );
   }
 
+  /********************************** SubGroups - الفئات الفرعية **********************************/
+
+  // جلب كل الفئات الفرعية (مع اسم الفئة الرئيسية)
+  getAllSubGroups(): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .get<any[]>(`${this.baseUrl}/api/SubGroup/getAllSubGroups`, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في جلب الفئات الفرعية:', error);
+          return throwError(() => new Error('فشل جلب الفئات الفرعية'));
+        })
+      );
+  }
+
+  // جلب الفئات الفرعية لفئة رئيسية معينة
+  getSubGroupsByGroup(groupId: number): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .get<any[]>(`${this.baseUrl}/api/SubGroup/by-group/${groupId}`, {
+        headers,
+      })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في جلب الفئات الفرعية للفئة ${groupId}:`, error);
+          return throwError(() => new Error('فشل جلب الفئات الفرعية'));
+        })
+      );
+  }
+
+  // إضافة فئة فرعية جديدة
+  addSubGroup(data: {
+    arName: string;
+    enName: string;
+    groupId: number;
+  }): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .post<any>(`${this.baseUrl}/api/SubGroup/addSubGroup`, data, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في إضافة الفئة الفرعية:', error);
+          return throwError(() => new Error('فشل إضافة الفئة الفرعية'));
+        })
+      );
+  }
+
+  // تعديل فئة فرعية
+  updateSubGroup(data: {
+    id: number;
+    arName: string;
+    enName: string;
+    groupId: number;
+  }): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .put<any>(`${this.baseUrl}/api/SubGroup/updateSubGroup`, data, {
+        headers,
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في تعديل الفئة الفرعية:', error);
+          return throwError(() => new Error('فشل تعديل الفئة الفرعية'));
+        })
+      );
+  }
+
+  // حذف فئة فرعية
+  deleteSubGroup(id: number): Observable<string> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .delete<string>(`${this.baseUrl}/api/SubGroup/deleteSubGroup?id=${id}`, {
+        headers,
+        responseType: 'text' as 'json',
+      })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في حذف الفئة الفرعية ${id}:`, error);
+          return throwError(() => new Error('فشل حذف الفئة الفرعية'));
+        })
+      );
+  }
+
   /********************************Service*********************************************/
 
   // جلب كل الخدمات
@@ -390,6 +493,107 @@ export class ApiService {
         return throwError(() => new Error(`فشل تعديل المحافظة ${id}`));
       })
     );
+  }
+
+  /********************************** Areas - المناطق **********************************/
+
+  // 1. جلب كل المناطق (مع governorateName)
+  getAllAreas(): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .get<any[]>(`${this.baseUrl}/api/Area/getAllAreas`, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في جلب كل المناطق:', error);
+          return throwError(() => new Error('فشل جلب المناطق'));
+        })
+      );
+  }
+
+  // 2. جلب مناطق محافظة معينة فقط
+  getAreasByGovernorate(governorateId: string): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .get<any[]>(`${this.baseUrl}/api/Area/by-governorate/${governorateId}`, {
+        headers,
+      })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في جلب مناطق المحافظة ${governorateId}:`, error);
+          return throwError(() => new Error('فشل جلب المناطق'));
+        })
+      );
+  }
+
+  // 3. إضافة منطقة جديدة
+  addArea(data: {
+    arName: string;
+    enName: string;
+    governorateId: number;
+  }): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .post<any>(`${this.baseUrl}/api/Area/addArea`, data, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في إضافة المنطقة:', error);
+          return throwError(() => new Error('فشل إضافة المنطقة'));
+        })
+      );
+  }
+
+  // 4. تعديل منطقة
+  updateArea(data: {
+    id: number;
+    arName: string;
+    enName: string;
+    governorateId: number;
+  }): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .put<any>(`${this.baseUrl}/api/Area/updateArea`, data, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في تعديل المنطقة:', error);
+          return throwError(() => new Error('فشل تعديل المنطقة'));
+        })
+      );
+  }
+
+  // 5. حذف منطقة
+  deleteArea(id: number): Observable<string> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .delete<string>(`${this.baseUrl}/api/Area/deleteArea?id=${id}`, {
+        headers,
+        responseType: 'text' as 'json',
+      })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في حذف المنطقة ${id}:`, error);
+          return throwError(() => new Error('فشل حذف المنطقة'));
+        })
+      );
   }
 
   /*******************************************advertisement****************************************************/
@@ -744,6 +948,40 @@ export class ApiService {
       );
   }
 
+  DeactivateUser(userId: number): Observable<string> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    const url = `${this.baseUrl}/api/Member/DeactivateMemberOnly?userId=${userId}`;
+    return this.http
+      .post<string>(url, {}, { headers, responseType: 'text' as 'json' })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في حظر المستخدم ${userId}:`, error);
+          return throwError(() => new Error(`فشل حظر المستخدم ${userId}`));
+        })
+      );
+  }
+
+  activateUser(userId: number): Observable<string> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    const url = `${this.baseUrl}/api/Member/AdminActivateMember?userId=${userId}`;
+    return this.http
+      .post<string>(url, {}, { headers, responseType: 'text' as 'json' })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في تنشيط المستخدم ${userId}:`, error);
+          return throwError(() => new Error(`فشل تنشيط المستخدم ${userId}`));
+        })
+      );
+  }
+
   //حذف المستخدم
   deleteUser(userId: number): Observable<string> {
     const token = localStorage.getItem('token');
@@ -912,6 +1150,73 @@ export class ApiService {
             errorMessage = 'الخادم غير متاح حاليًا. حاول لاحقًا.';
           }
           console.error('خطأ في تحديث الملف الشخصي:', error);
+          return throwError(() => ({
+            status: error.status,
+            message: errorMessage,
+          }));
+        })
+      );
+  }
+
+  /**********************************slider*********************************************/
+  // جلب كل البانرات
+  getAllSliders(): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    return this.http
+      .get<any>(`${this.baseUrl}/api/Slider/getAll`, { headers })
+      .pipe(
+        catchError((error) => {
+          console.error('خطأ في جلب كل البانرات:', error);
+          return throwError(() => new Error('فشل جلب كل البانرات'));
+        })
+      );
+  }
+
+  //حذف البانر
+  deleteSlider(sliderId: number): Observable<string> {
+    const token = localStorage.getItem('token');
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+    const url = `${this.baseUrl}/api/Slider/delete?id=${sliderId}`;
+    return this.http
+      .delete<string>(url, { headers, responseType: 'text' as 'json' })
+      .pipe(
+        catchError((error) => {
+          console.error(`خطأ في حذف البانر ${sliderId}:`, error);
+          return throwError(() => new Error(`فشل حذف البانر ${sliderId}`));
+        })
+      );
+  }
+
+  // إضافة بانر جديد
+  addslider(data: FormData): Observable<string> {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const url = `${this.baseUrl}/api/Slider/create`;
+    return this.http
+      .post<string>(url, data, { headers, responseType: 'text' as 'json' })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'حدث خطأ غير معروف';
+          if (error.status === 0) {
+            errorMessage = 'فشل الاتصال بالخادم. تحقق من الشبكة.';
+          } else if (error.status === 400) {
+            errorMessage = error.error?.message || 'بيانات الإدخال غير صحيحة.';
+          } else if (error.status === 401) {
+            errorMessage = 'غير مصرح لك بإضافة بانر.';
+          } else if (error.status === 503) {
+            errorMessage = 'الخادم غير متاح حاليًا. حاول لاحقًا.';
+          }
+          console.error('خطأ في إضافة البانر:', error);
           return throwError(() => ({
             status: error.status,
             message: errorMessage,

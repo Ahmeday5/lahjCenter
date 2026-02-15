@@ -102,7 +102,7 @@
 
 /* تنسيق الرابط النشط */
 .nav-active {
-  background-color: #54BC6424;
+  background-color: #54bc6424;
   border-radius: 8px;
   height: 45px;
   border-right: 5px solid var(--second-color);
@@ -130,8 +130,8 @@
 .toggle-btn {
   display: none;
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 9%;
+  right: 3%;
   z-index: 1100;
   padding: 2px 5px;
   border-radius: 8px;
@@ -144,18 +144,18 @@
 /* تنسيق الزر عندما يكون الـ Sidebar مفتوحًا */
 .toggle-btn-open {
   color: var(--main-color);
-  right: 223px;
-  top: 17px;
+  right: 230px;
+  top: 2.2%;
   border: none;
   font-size: 22px;
   font-weight: bold;
-  background: #5dbd6b83 !important;
+  background: transparent !important;
 }
 
 @media (max-width: 992px) {
   .sidebar {
     width: 100vw;
-    background-color: #5dbd6b83;
+    background-color: #aef1d2;
   }
   .toggle-btn {
     display: block;

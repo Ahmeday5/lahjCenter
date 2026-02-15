@@ -11,6 +11,7 @@ import { ApiService } from '../../../services/api.service';
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
 })
+
 export class EditUserComponent implements OnInit {
   user: any = null;
   loading: boolean = true;
@@ -61,7 +62,10 @@ export class EditUserComponent implements OnInit {
           image: null,
           imageUrl: data.imageUrl || '',
           activity: data.activity || '',
-          role: data.roles && data.roles.length > 0 ? data.roles[0] : data.role || '', // محاولة جلب الدور من roles أو role
+          role:
+            data.roles && data.roles.length > 0
+              ? data.roles[0]
+              : data.role || '', // محاولة جلب الدور من roles أو role
         };
         this.originalImageUrl = data.imageUrl || null; // تخزين الصورة القديمة
         this.loading = false;
@@ -140,7 +144,9 @@ export class EditUserComponent implements OnInit {
       },
       error: (error) => {
         console.error(`خطأ في تعديل المستخدم ${this.formData.id}:`, error);
-        this.errorMessage = `فشل تعديل المستخدم: ${error.message || 'خطأ غير معروف'}`;
+        this.errorMessage = `فشل تعديل المستخدم: ${
+          error.message || 'خطأ غير معروف'
+        }`;
         this.loading = false;
       },
     });
